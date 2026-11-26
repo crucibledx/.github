@@ -2,52 +2,31 @@
 
 # Crucible
 
-**Developer tools for teams that ship with AI assistants.**
+**Ship shared context. Trace agent work.**
 
 [![Website](https://img.shields.io/badge/crucibledx.dev-%23e84d00)](https://crucibledx.dev)
 [![License: MIT](https://img.shields.io/badge/license-MIT-%23a0aec0)](https://github.com/crucibledx/forge-cli/blob/main/LICENSE)
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/crucibledx/assets/raw/main/crucible/diagrams/dark/crucible-ecosystem.svg">
-  <img alt="Crucible Ecosystem" src="https://github.com/crucibledx/assets/raw/main/crucible/diagrams/light/crucible-ecosystem.svg" width="800">
-</picture>
-
 </div>
 
----
+Crucible builds open-source infrastructure for coding harnesses. Forge distributes skills, rules, and workflows across your tools. Ember reconstructs agent session trees and groups cross-harness work with `ember.work.id`.
 
-Your team uses Claude Code, Cursor, Windsurf, Copilot, Cline — maybe all of them. Each tool has its own config format, its own rules location, its own way of doing things.
-
-**Crucible** is a platform of focused CLIs that solve the AI developer experience — from syncing configs across tools, to building and testing the skills those tools consume, to observing how they're actually used.
-
-Each product is independent enough to be useful alone, but shares infrastructure for leverage.
+**Don't compete. Complete.** Each product integrates with the coding harnesses and observability backends developers already use.
 
 ## Products
 
-### Shipped
+| Product | Status | Description | Links |
+| --- | --- | --- | --- |
+| **[Forge CLI](https://github.com/crucibledx/forge-cli)** | Shipped (v0.7.0) | Distributes skills, rules, and workflows from Git or local sources to coding harnesses | [Docs](https://crucibledx.dev/forge) · [Install](https://crucibledx.dev/getting-started/installation) |
+| **[Forge Skills Starter](https://github.com/crucibledx/forge-skills-starter)** | Shipped | Convention-based template for building, testing, and delivering agent resources | [Docs](https://crucibledx.dev/starter/overview) |
+| **[Ember](https://github.com/crucibledx/ember)** | In development | Go OpenTelemetry Collector distribution for session trees, usage, MCP, and work attribution | [Overview](https://crucibledx.dev/ember) |
+| **Smelt** | Designed | Shared plugin engine library | [Roadmap](https://crucibledx.dev/platform/roadmap) |
+| **Anvil** | Designed | SDK for third-party plugin development | [Roadmap](https://crucibledx.dev/platform/roadmap) |
+| **Lathe** | Designed | MCP server that exposes Forge commands as MCP tools | [Roadmap](https://crucibledx.dev/platform/roadmap) |
+| **Foundry** | Designed | Plugin registry and marketplace for community resources | [Roadmap](https://crucibledx.dev/platform/roadmap) |
+| **Cast** | Designed | Frontend and embed scaffolding CLI | [Roadmap](https://crucibledx.dev/platform/roadmap) |
 
-| Product                                                                        | Description                                                                                            | Links                                                                                                          |
-|--------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| **[Forge CLI](https://github.com/crucibledx/forge-cli)**                       | Sync AI assistant configs from a central source to every tool, in the right format                     | [Docs](https://crucibledx.dev/forge/commands) · [Install](https://crucibledx.dev/getting-started/installation) |
-| **[Forge Skills Starter](https://github.com/crucibledx/forge-skills-starter)** | Convention-over-configuration platform for designing, developing, testing, and delivering AI resources | [Docs](https://crucibledx.dev/starter/overview)                                                                |
-
-### Researched
-
-| Product   | Description                                                                        |
-|-----------|------------------------------------------------------------------------------------|
-| **Ember** | Cross-tool AI assistant observability — Prometheus-model collector for AI sessions |
-
-### Planned
-
-| Product     | Description                                                                               |
-|-------------|-------------------------------------------------------------------------------------------|
-| **Smelt**   | Shared plugin engine library — will be extracted from Forge when a second consumer exists |
-| **Anvil**   | Plugin development SDK — types, validation, and testing utilities                         |
-| **Lathe**   | MCP server — exposes Forge commands as MCP tools for AI assistants                        |
-| **Foundry** | Plugin registry and marketplace — discover, share, and install community resources        |
-| **Cast**    | Frontend/embed scaffolding CLI — micro-frontend patterns powered by Smelt                 |
-
-## Forge CLI at a Glance
+## Forge CLI at a glance
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/crucibledx/assets/raw/main/forge/demos/dark/01-set-and-forget.gif">
@@ -55,47 +34,37 @@ Each product is independent enough to be useful alone, but shares infrastructure
 </picture>
 
 ```bash
-forge init    # wizard detects your AI tools, configures a source
-forge sync    # pulls files, transforms & places them for each tool
-forge health  # dashboard: sync status, drift, source reachability
+forge init    # detect coding harnesses and configure a source
+forge sync    # transform and place resources for each harness
+forge health  # sync status, drift, and source reachability
 ```
 
 - **12 commands** — init, sync, status, health, config, source management, scheduler, telemetry, uninstall
-- **5 assistants** — Claude Code, Cursor, Windsurf, GitHub Copilot, Cline
-- **2 source types** — git, local
-- **3 layouts** — canonical, pre-structured, hybrid (auto-detected)
-- **687 tests**, 6,369 LOC production code
+- **5 coding harnesses** — Claude Code, Cursor, Windsurf, GitHub Copilot, Cline
+- **2 source types** — Git and local directories
+- **3 layouts** — canonical, pre-structured, and hybrid, auto-detected
+- **Transactional writes** — dry-run, backups, drift detection, and rollback with explicit incomplete-recovery reporting
 
-## How It All Connects
+Forge v0.8 will add Agent Plugins 1.0 delivery through Droid and Claude Code first. The v0.9 compiler remains roadmap work; its detailed capabilities are not yet approved.
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/crucibledx/assets/raw/main/ember/diagrams/dark/ember-closed-loop.svg">
-  <img alt="Forge → Ember → Skills Starter — closed loop" src="https://github.com/crucibledx/assets/raw/main/ember/diagrams/light/ember-closed-loop.svg">
-</picture>
+## Ember
 
-**Skills Starter** builds the resources (skills, rules, workflows) with a full engineering lifecycle — design, develop, test against real code specimens, version, release.
+Ember is written in Go as a custom OpenTelemetry Collector distribution. Machine agents and an optional gateway reconstruct one trace tree per session or workstream across processes and machines. `ember.work.id` groups related work across coding harnesses.
 
-**Forge CLI** delivers those resources to every developer's machine, transformed into the right format for each AI tool.
+The initial design supports Droid and Claude Code, standard OTLP export to existing backends, usage and MCP attribution, and content capture off by default.
 
-**Ember** (researched) will measure how those resources are actually used, closing the feedback loop.
-
-## Technology
-
-- **TypeScript + Bun** — fast iteration, single native binary via `bun build --compile`
-- **DDD architecture** — domain / application / infrastructure layering
-- **MIT licensed** — maximum adoption
-
-## Get Started
+## Get started
 
 ```bash
-# Install Forge CLI
-curl -fsSL https://crucibledx.dev/install.sh | bash
+# Homebrew
+brew install crucibledx/tap/forge
 
-# Or via npm
-npm i -g @crucibledx/forge-cli
+# npm (requires Bun 1.4.2 or later)
+npm install -g @crucibledx/forge-cli
 
-# Initialize in your project
+# Configure a source and sync
 forge init
+forge sync
 ```
 
-📖 **[Documentation](https://crucibledx.dev)** · 🛠️ **[Forge CLI](https://github.com/crucibledx/forge-cli)** · 📐 **[Skills Starter](https://github.com/crucibledx/forge-skills-starter)**
+**[Documentation](https://crucibledx.dev)** · **[Products](https://crucibledx.dev/platform/products)** · **[Roadmap](https://crucibledx.dev/platform/roadmap)**
